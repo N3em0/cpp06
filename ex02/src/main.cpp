@@ -6,10 +6,11 @@
 #include <ctime>
 #include <exception>
 #include <iostream>
+#include <typeinfo>
 
 Base *generate(void)
 {
-  srand(static_cast<unsigned int>(time(0))); // Seed once
+  srand(static_cast<unsigned int>(time(0)));
   int i = rand() % 3 + 1;
   switch (i)
   {
@@ -49,36 +50,49 @@ void Identify(Base *p)
 
 void Identify(Base &p)
 {
-  if (dynamic_cast<A &>(p) != 0)
+  try
   {
-    std::cout << "object pointed is type A" << std::endl;
+    A a = dynamic_cast<A &>(p);
+    std::cout << "object referenced is type A" << std::endl;
     return;
   }
-  if (dynamic_cast<B &>(p) != 0)
+  catch (std::bad_cast &e)
   {
-    std::cout << "object pointed is type B" << std::endl;
+    std::cout << e.what() << std::endl;
+  }
+  try
+  {
+    B b = dynamic_cast<B &>(p);
+    std::cout << "object referenced is type B" << std::endl;
     return;
   }
-  if (dynamic_cast<C &>(p) != 0)
+  catch (std::bad_cast &e)
   {
-    std::cout << "object pointed is type C" << std::endl;
+    std::cout << e.what() << std::endl;
+  }
+  try
+  {
+    C c = dynamic_cast<C &>(p);
+    std::cout << "object referenced is type C" << std::endl;
     return;
   }
-  else
+  catch (std::bad_cast &e)
   {
-    std::cout << "object is NULL" << std::endl;
+    std::cout << e.what() << std::endl;
   }
 }
 
 int main()
 {
   Base *b;
-  Base *n = 0;
 
   b = generate();
   Identify(b);
-  Identify(n);
+  Identify(*b);
 
-  std::cout << &b << std::endl;
+  // Base *n = 0;
+  // Identify(n);
+  // Identify(*n);
+
   delete b;
 }

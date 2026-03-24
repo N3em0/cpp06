@@ -74,7 +74,7 @@ static void convertFromInt(std::string str)
   else
   {
     int i = static_cast<int>(tmp);
-    if (i > CHAR_MAX || i < CHAR_MIN)
+    if (i > CHAR_MAX || i < 0)
       std::cout << "char: impossible" << std::endl;
     else if (i >= 32 && i < 127)
       std::cout << "char: \'" << static_cast<char>(i) << "\'" << std::endl;
@@ -104,7 +104,7 @@ static void convertFromFloat(std::string str)
   }
   else
   {
-    if (f > CHAR_MAX || f < CHAR_MIN)
+    if (f > CHAR_MAX || f < 0)
       std::cout << "char: impossible" << std::endl;
     else if (f >= 32 && f < 127)
       std::cout << "char: \'" << static_cast<char>(f) << "\'" << std::endl;
@@ -123,7 +123,7 @@ static void convertFromDouble(std::string str)
   float f;
 
   d = std::strtod(str.c_str(), NULL);
-  if (d > CHAR_MAX || d < CHAR_MIN)
+  if (d > CHAR_MAX || d < 0)
     std::cout << "char: impossible" << std::endl;
   else if (d >= 32 && d < 127)
     std::cout << "char: \'" << static_cast<char>(d) << "\'" << std::endl;
