@@ -1,20 +1,9 @@
 #include "ScalarConverter.hpp"
-#include <cfloat>
-#include <climits>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <iomanip>
+#include <climits> //INT_MIN & INT_MAX
+#include <cmath>   //isinf()
+#include <cstdlib> // std::strtod()
+#include <iomanip> //std::setprecision()
 #include <iostream>
-
-// #define DISPLAYABLE_CHAR \
-//   " !\"#$%'\()*+,-./" \
-//   ":;<=>?@[\\]^_`\{|}~" \
-//   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890"
-//
-// #define CHAR_TO_CONVERT \
-//   " !\"#$%'\()*+,-./" \
-//   ":;<=>?@[\\]^_`\{|}~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 ScalarConverter::ScalarConverter() {};
 
@@ -50,7 +39,7 @@ static void convertFromChar(std::string str)
   c = str[0];
   if (c >= 32 && c < 127)
     std::cout << "char: \'" << c << "\'" << std::endl;
-  else if (c >= 0 && c < 32)
+  else if ((c >= 0 && c < 32) || c == 127)
     std::cout << "char: Non displayable" << std::endl;
   i = static_cast<int>(c);
   f = static_cast<float>(c);
@@ -78,7 +67,7 @@ static void convertFromInt(std::string str)
       std::cout << "char: impossible" << std::endl;
     else if (i >= 32 && i < 127)
       std::cout << "char: \'" << static_cast<char>(i) << "\'" << std::endl;
-    else if (i >= 0 && i < 32)
+    else if ((i >= 0 && i < 32) || i == 127)
       std::cout << "char: Non displayable" << std::endl;
     float f = static_cast<float>(i);
     double d = static_cast<double>(i);
@@ -108,7 +97,7 @@ static void convertFromFloat(std::string str)
       std::cout << "char: impossible" << std::endl;
     else if (f >= 32 && f < 127)
       std::cout << "char: \'" << static_cast<char>(f) << "\'" << std::endl;
-    else if (f >= 0 && f < 32)
+    else if ((f >= 0 && f < 32) || f == 127)
       std::cout << "char: Non displayable" << std::endl;
     i = static_cast<int>(f);
     d = static_cast<double>(f);
@@ -127,7 +116,7 @@ static void convertFromDouble(std::string str)
     std::cout << "char: impossible" << std::endl;
   else if (d >= 32 && d < 127)
     std::cout << "char: \'" << static_cast<char>(d) << "\'" << std::endl;
-  else if (d >= 0 && d < 32)
+  else if ((d >= 0 && d < 32) || d == 127)
     std::cout << "char: Non displayable" << std::endl;
   i = static_cast<int>(d);
   f = static_cast<float>(d);
@@ -153,7 +142,7 @@ void ScalarConverter::convert(std::string str)
     displayNanValues();
     return;
   }
-  if (str.length() == 1 && str[0] < 48 && str[0] > 57)
+  if (str.length() == 1 && (str[0] < 48 || str[0] > 57))
   {
     convertFromChar(str);
     return;
@@ -185,4 +174,5 @@ void ScalarConverter::convert(std::string str)
       return;
     }
   }
+  std::cout << "Warning: invalid input. Can't convert" << std::endl;
 }

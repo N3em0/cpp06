@@ -13,7 +13,7 @@ OBJ			:=	$(SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 DEP			:=	$(OBJ:%.o=%.d)
 
 CXX			:=	c++
-CXXFLAGS	:=  -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3
+CXXFLAGS	:=  -Wall -Wextra -Werror -std=c++98 -MMD -MP -g3 -fno-limit-debug-info
 INCLUDE		:=	-I$(INC_DIR)
 
 MAKEFLAGS	+=	--no-print-directory
