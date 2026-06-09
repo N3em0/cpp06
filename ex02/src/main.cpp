@@ -6,7 +6,6 @@
 #include <ctime>
 #include <exception>
 #include <iostream>
-#include <typeinfo>
 
 Base *generate(void)
 {
@@ -56,9 +55,9 @@ void Identify(Base &p)
     std::cout << "object referenced is type A" << std::endl;
     return;
   }
-  catch (std::bad_cast &e)
+  catch (std::exception &e)
   {
-    std::cout << e.what() << std::endl;
+    std::cout << "Error for A cast : " << e.what() << std::endl;
   }
   try
   {
@@ -66,9 +65,9 @@ void Identify(Base &p)
     std::cout << "object referenced is type B" << std::endl;
     return;
   }
-  catch (std::bad_cast &e)
+  catch (std::exception &e)
   {
-    std::cout << e.what() << std::endl;
+    std::cout << "Error for B cast : " << e.what() << std::endl;
   }
   try
   {
@@ -76,9 +75,9 @@ void Identify(Base &p)
     std::cout << "object referenced is type C" << std::endl;
     return;
   }
-  catch (std::bad_cast &e)
+  catch (std::exception &e)
   {
-    std::cout << e.what() << std::endl;
+    std::cout << "Error for C cast : " << e.what() << std::endl;
   }
 }
 
