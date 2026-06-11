@@ -9,6 +9,14 @@ ScalarConverter::ScalarConverter() {};
 
 ScalarConverter::ScalarConverter(ScalarConverter const &src) { (void)src; }
 
+ScalarConverter &ScalarConverter::operator=(ScalarConverter const &rhs)
+{
+  if (this != &rhs)
+  {
+  }
+  return (*this);
+}
+
 static void displayValues(int i, float f, double d)
 {
   if (i > INT_MIN && i <= INT_MAX)
@@ -19,14 +27,6 @@ static void displayValues(int i, float f, double d)
             << std::endl;
   std::cout << "double: " << std::fixed << std::setprecision(1) << d
             << std::endl;
-}
-
-static void displayNanValues(void)
-{
-  std::cout << "char: impossible" << std::endl;
-  std::cout << "int: impossible" << std::endl;
-  std::cout << "float: nanf" << std::endl;
-  std::cout << "double: nan" << std::endl;
 }
 
 static void convertFromChar(std::string str)
@@ -62,7 +62,7 @@ static void convertFromInt(std::string str)
   }
   else
   {
-    int i = static_cast<int>(tmp);
+    int i = std::atoi(str.c_str());
     if (i > CHAR_MAX || i < 0)
       std::cout << "char: impossible" << std::endl;
     else if (i >= 32 && i < 127)
@@ -77,13 +77,11 @@ static void convertFromInt(std::string str)
 
 static void convertFromFloat(std::string str)
 {
-  double tmp;
   float f;
   int i;
   double d;
 
-  tmp = std::strtod(str.c_str(), NULL);
-  f = static_cast<float>(tmp);
+  f = std::strtof(str.c_str(), NULL);
   if (isinf(f))
   {
     std::cout << "char: impossible" << std::endl;
@@ -137,9 +135,16 @@ static size_t charCount(char c, std::string str)
 
 void ScalarConverter::convert(std::string str)
 {
-  if (!str.compare("nan") || !str.compare("nanf"))
+  if (!str.compare("+inff") || !str.compare("-inff") || !str.compare("inff") ||
+      !str.compare("nanf") || !str.compare("-nanf"))
   {
-    displayNanValues();
+    convertFromFloat(str);
+    return;
+  }
+  if (!str.compare("+inf") || !str.compare("-inf") || !str.compare("inf") ||
+      !str.compare("nan") || !str.compare("-nan"))
+  {
+    convertFromDouble(str);
     return;
   }
   if (str.length() == 1 && (str[0] < 48 || str[0] > 57))
