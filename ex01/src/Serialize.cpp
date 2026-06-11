@@ -1,7 +1,18 @@
 #include "Serialize.hpp"
 #include "Data.hpp"
-#include <iostream>
 #include <stdint.h>
+
+Serialize::Serialize() {}
+
+Serialize::Serialize(const Serialize &src) { (void)src; }
+
+Serialize &Serialize::operator=(const Serialize &rhs)
+{
+  if (this != &rhs)
+  {
+  }
+  return (*this);
+}
 
 uintptr_t Serialize::serialize(Data *ptr)
 {

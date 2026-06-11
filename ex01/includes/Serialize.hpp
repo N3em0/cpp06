@@ -6,12 +6,13 @@ struct Data;
 
 class Serialize
 {
-public:
+private:
   Serialize();
   Serialize(Serialize const &src);
-  virtual ~Serialize() = 0;
-
   Serialize &operator=(Serialize const &rhs);
+
+public:
+  virtual ~Serialize() = 0;
 
   static uintptr_t serialize(Data *ptr);
   static Data *deserialize(uintptr_t raw);
