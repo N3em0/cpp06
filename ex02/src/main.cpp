@@ -24,7 +24,7 @@ Base *generate(void)
   }
 }
 
-void Identify(Base *p)
+void identify(Base *p)
 {
   if (dynamic_cast<A *>(p) != 0)
   {
@@ -47,7 +47,7 @@ void Identify(Base *p)
   }
 }
 
-void Identify(Base &p)
+void identify(Base &p)
 {
   try
   {
@@ -86,12 +86,7 @@ int main()
   Base *b;
 
   b = generate();
-  Identify(b);
-  Identify(*b);
-
-  // Base *n = 0;
-  // Identify(n);
-  // Identify(*n);
-
+  identify(b);
+  identify(*b);
   delete b;
 }
