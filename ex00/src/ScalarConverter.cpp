@@ -86,8 +86,9 @@ static void convertFromFloat(std::string str)
   {
     std::cout << "char: impossible" << std::endl;
     std::cout << "int: impossible" << std::endl;
-    std::cout << "float: " << f << "f" << std::endl;
-    std::cout << "double: " << static_cast<double>(f) << std::endl;
+    std::cout << "float: " << (f >= 0 ? "+" : "") << f << "f" << std::endl;
+    std::cout << "double: " << (f >= 0 ? "+" : "") << static_cast<double>(f)
+              << std::endl;
   }
   else
   {
@@ -110,15 +111,26 @@ static void convertFromDouble(std::string str)
   float f;
 
   d = std::strtod(str.c_str(), NULL);
-  if (d > CHAR_MAX || d < 0)
+  if (isinf(d))
+  {
     std::cout << "char: impossible" << std::endl;
-  else if (d >= 32 && d < 127)
-    std::cout << "char: \'" << static_cast<char>(d) << "\'" << std::endl;
-  else if ((d >= 0 && d < 32) || d == 127)
-    std::cout << "char: Non displayable" << std::endl;
-  i = static_cast<int>(d);
-  f = static_cast<float>(d);
-  displayValues(i, f, d);
+    std::cout << "int: impossible" << std::endl;
+    std::cout << "float: " << (d >= 0 ? "+" : "") << static_cast<float>(d)
+              << "f" << std::endl;
+    std::cout << "double: " << (d >= 0 ? "+" : "") << d << std::endl;
+  }
+  else
+  {
+    if (d > CHAR_MAX || d < 0)
+      std::cout << "char: impossible" << std::endl;
+    else if (d >= 32 && d < 127)
+      std::cout << "char: \'" << static_cast<char>(d) << "\'" << std::endl;
+    else if ((d >= 0 && d < 32) || d == 127)
+      std::cout << "char: Non displayable" << std::endl;
+    i = static_cast<int>(d);
+    f = static_cast<float>(d);
+    displayValues(i, f, d);
+  }
 }
 
 static size_t charCount(char c, std::string str)
