@@ -1,7 +1,7 @@
 #include "Data.hpp"
 #include "Serialize.hpp"
 #include <iostream>
-#include <stdint.h>
+#include <stdint.h> //uintptr_t
 
 int main()
 {
